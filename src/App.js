@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import * as firebase from 'firebase';
-import config from './config/config.js'
-
-firebase.initializeApp(config.FIREBASE_CONFIG);
+import database from './database';
 
 class App extends Component {
 
   constructor(){
     super();
     this.state = {
-      speed:10
+      speed:""
     };
   }
 
   componentDidMount(){
-    const rootRef = firebase.database().ref().child('test');
+    const rootRef = database.ref().child('test');
     const speedRef = rootRef.child('speed');
 
     speedRef.on('value', snap => {
