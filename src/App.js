@@ -2,16 +2,9 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import * as firebase from 'firebase';
+import config from './config/config.js'
 
-var config = {
-    apiKey: "AIzaSyAzmYVPQ0ciJPLZrU3MqBfBTCw11eh3BJA",
-    authDomain: "moment-c7f66.firebaseapp.com",
-    databaseURL: "https://moment-c7f66.firebaseio.com",
-    projectId: "moment-c7f66",
-    storageBucket: "moment-c7f66.appspot.com",
-    messagingSenderId: "234565228463"
-};
-firebase.initializeApp(config);
+firebase.initializeApp(config.FIREBASE_CONFIG);
 
 class App extends Component {
 
