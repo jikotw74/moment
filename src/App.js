@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import database from './database';
+import FireBaseTools from './util/firebase';
+import ActionGroup from './component/ActionGroup';
 
 class App extends Component {
 
@@ -12,9 +13,8 @@ class App extends Component {
     };
   }
 
-  componentDidMount(){
-    const rootRef = database.ref().child('test');
-    const speedRef = rootRef.child('speed');
+  componentWillMount(){
+    const speedRef = FireBaseTools.getDatabaseReference('test/speed');
 
     speedRef.on('value', snap => {
       this.setState({
@@ -34,6 +34,7 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <h1>{this.state.speed}</h1>
+        <ActionGroup id="1"/>
       </div>
     );
   }
