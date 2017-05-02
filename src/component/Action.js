@@ -17,9 +17,6 @@ class Action extends Component {
             actionRef.on('value', snap => {
                 this.setState(snap.val());
             });
-            // actionRef.on('child_changed', snap => {
-            //     this.setState(snap.val());
-            // });
         }
     }
 

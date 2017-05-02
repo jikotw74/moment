@@ -16,7 +16,7 @@ class ActionGroup extends Component {
     // const actionGroupRef = FireBaseTools.getDatabaseReference('actionGroups/' + this.props.id);
     const actionsRef = FireBaseTools.getDatabaseReference('actions').orderByKey()
     if (actionsRef) {
-      actionsRef.once('value', snap => {
+      actionsRef.on('value', snap => {
         let data = [];
         snap.forEach(childSnapshot => {
           const childKey = childSnapshot.key;
@@ -25,7 +25,6 @@ class ActionGroup extends Component {
             data.push(childKey);
           }
         });
-        console.log(data);
         this.setState({
           data:data
         });
