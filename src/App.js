@@ -4,6 +4,14 @@ import './App.css';
 import FireBaseTools from './util/firebase';
 import ActionGroup from './component/ActionGroup';
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MyAwesomeReactComponent from './component/MyAwesomeReactComponent';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
+
 class App extends Component {
 
   constructor(){
@@ -35,6 +43,9 @@ class App extends Component {
         </p>
         <h1>{this.state.speed}</h1>
         <ActionGroup id="1"/>
+        <MuiThemeProvider>
+          <MyAwesomeReactComponent />
+        </MuiThemeProvider>
       </div>
     );
   }
