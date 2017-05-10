@@ -37,7 +37,7 @@ class ActionGroup extends Component {
       <Action key={index} id={item}/>
     );
     return (
-      <div className="ActionGroup">
+      <div className="ActionGroup" style={{backgroundColor: this.props.bgColor}}>
         {rows}
       </div>
     );

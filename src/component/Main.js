@@ -1,13 +1,13 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import TopBar from './TopBar';
-import ActionGroup from './ActionGroup';
+import ActionGroupList from './ActionGroupList';
 
 const Main = () => (
 	<div className="Main">
   		<TopBar />
-  		<ActionGroup id="1"/>
-  		<RaisedButton label="Default" />
+  		<ActionGroupList/>
+  		<RaisedButton label="Go" />
   	</div>
 );
 
