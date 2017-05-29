@@ -1,29 +1,17 @@
 import React, { Component } from 'react';
 import './Action.css';
-import FireBaseTools from '../util/firebase';
+import Paper from 'material-ui/Paper';
 
 class Action extends Component {
-
-    constructor() {
-        super();
-        this.state = {
-            name: ""
-        };
-    }
-
-    componentWillMount() {
-        const actionRef = FireBaseTools.getDatabaseReference('actions/' + this.props.id);
-        if (actionRef) {
-            actionRef.on('value', snap => {
-                this.setState(snap.val());
-            });
-        }
-    }
 
     render() {
         return ( 
             <div className="Action">
-                <h1>{this.state.name}</h1> 
+                <Paper zDepth={1}>
+                    <div className="Action__name">
+                        {this.props.name}
+                    </div>
+                </Paper>
             </div>
         );
     }

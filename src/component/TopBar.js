@@ -18,7 +18,7 @@ class TopBar extends Component {
 	    return (
 	    	<div className="TopBar">
 		      	<AppBar
-			    	title="MOMENT"
+			    	title="POSE"
 			    	iconClassNameRight="material-icons muidocs-icon-navigation-expand-more"
 			    	onLeftIconButtonTouchTap={this.handleToggle}
 			  	/>
