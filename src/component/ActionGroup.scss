@@ -1,5 +1,11 @@
 .ActionGroup{
-	
+	display: flex;
+}
+.ActionGroup__title{
+	padding: 0.5em;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
 }
 .ActionGroup__actions{
 	display: flex;

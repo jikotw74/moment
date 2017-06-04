@@ -6,13 +6,16 @@ import Action from './Action';
 import FireBaseTools from '../util/firebase';
 const colors = require('material-ui/styles/colors.js');
 const colorsArray = Object.keys(colors).filter(colorName => colorName.indexOf('green') !== -1).map(colorName => colors[colorName]);
+let groups = [];
+let actions = [];
+let init = false;
+let using = [];
 
 class Main extends Component {
-
-    constructor(props) {
+	constructor(props) {
         super(props);
         this.state = {
-	      data: {}
+	      init: init
 	    };
     }
 
@@ -21,44 +24,63 @@ class Main extends Component {
 	    if (ref) {
 	      	ref.on('value', snap => {
 	        	var data = snap.val();
-	          			
+			    groups = data.actionGroups;
+			    actions = data.actions;
 			    this.setState({
-			    	data:data
+			    	init: init
 			    });
+			    console.log('groups', groups);
+			    console.log('actions', actions);
 	      	});
 	    }
     }
 
- //    shuffle = (o) => {
-	// 	for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-	// 	return o;
-	// };
+	go = () => {
+		const shuffle = (a) => a[parseInt(Math.random() * a.length, 10)];
+		using = groups.map((group, groupIndex) => {
+			let actionsInGroup = actions.filter((action, actionIndex) => {
+	    		return action.group*1 === groupIndex*1;
+	    	});
+			return {
+				groupIndex: groupIndex,
+				action: shuffle(actionsInGroup)
+			};
+		});
+
+		init = true;
+		this.setState({
+			init: init
+		});
+		console.log(using);
+	}
 
     render() {
-    	const groups = this.state.data.actionGroups;
-    	const actions = this.state.data.actions;
-    	var rows = [];
-    	if(groups){
-    		rows = groups.map((group, groupIndex) => {
-	    		const children = actions.filter((action, actionIndex) => {
-	    			return action.group*1 === groupIndex*1;
-	    		}).map((action, actionIndex) =><Action key={actionIndex} name={action.name}/>)
+    	const rows = groups.map((group, groupIndex) => {
+    		let children;
+    		if(this.state.init){
+    			children = using.filter((snap, snapIndex) => {
+		    		return snap.groupIndex*1 === groupIndex*1;
+		    	}).map((snap, snapIndex) => <Action key={snapIndex} name={snap.action.name}/>)
+    		}else{
+    			children = actions.filter((action, actionIndex) => {
+		    		return action.group*1 === groupIndex*1;
+		    	}).map((action, actionIndex) => <Action key={actionIndex} name={action.name}/>)
+    		}
 
-	    		return <ActionGroup 
-		        	key={groupIndex} 
-		        	title={group.name}
-		        	bgColor={colorsArray[groupIndex]}
-		      	>{children}</ActionGroup>
-	    	});
-    	}
+	    	return <ActionGroup 
+		        key={groupIndex} 
+		        title={group.name}
+		        bgColor={colorsArray[groupIndex]}
+		    >{children}</ActionGroup>
+	    });
 
         return ( 
             <div className="Main">
-		  		<TopBar />
+		  		<TopBar groups={groups} actions={actions}/>
 		  		<div className="group-list">
 		  			{rows}
 		  		</div>
-		  		<RaisedButton label="Go" onTouchTap={this.handleClose}/>
+		  		<RaisedButton label="Go" onTouchTap={this.go}/>
 		  	</div>
         );
     }
