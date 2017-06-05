@@ -115,14 +115,14 @@ class TopBar extends Component {
 	render() {
 		const groups = this.props.groups;
 		const actions = this.props.actions;
-		const items = Object.keys(groups).map((groupKey) => {
+		const items = Object.keys(groups).map((groupKey, groupIndex) => {
 			let group = groups[groupKey];
     		const children = Object.keys(actions).filter((actionKey, actionIndex) => {
     			let action = actions[actionKey];
 		    	return action.group === groupKey;
 		    }).map((actionKey, actionIndex) => {
 		    	let action = actions[actionKey];
-		    	return <MenuItem key={actionKey} onTouchTap={this.dialogActionToggle(action, actionKey, groupKey)} leftIcon={<FontIcon className="material-icons">photo_camera</FontIcon>}>{action.name}</MenuItem>
+		    	return <MenuItem key={actionIndex} onTouchTap={this.dialogActionToggle(action, actionKey, groupKey)} leftIcon={<FontIcon className="material-icons">photo_camera</FontIcon>}>{action.name}</MenuItem>
 		    });
 
 		    children.push(<MenuItem key={children.length+1} onTouchTap={this.dialogActionToggle(false, false, groupKey)} leftIcon={<FontIcon className="material-icons">add</FontIcon>}>新增動作</MenuItem>);
@@ -131,9 +131,9 @@ class TopBar extends Component {
 		    	<FontIcon className="material-icons" onTouchTap={this.dialogGroupToggle(group, groupKey)}>mode_edit</FontIcon>
 		    </IconButton>
 
-	    	return <div key={groupKey}>
+	    	return <div key={groupIndex}>
 		    	<ListItem 
-				    key={groupKey} 
+				    key={groupIndex} 
 				    primaryText={group.name}
 				    nestedItems={children}
 				    primaryTogglesNestedList={true}

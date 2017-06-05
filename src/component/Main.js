@@ -72,12 +72,12 @@ class Main extends Component {
 		    		return action.group === groupKey;
 		    	}).map((actionKey, actionIndex) => {
 		    		let action = actions[actionKey];
-		    		return <Action key={actionKey} name={action.name}/>
+		    		return <Action key={actionIndex} name={action.name}/>
 		    	})
     		}
 
 	    	return <ActionGroup 
-		        key={groupKey} 
+		        key={groupIndex} 
 		        title={group.name}
 		        bgColor={this.getColor(groupIndex)}
 		    >{children}</ActionGroup>
