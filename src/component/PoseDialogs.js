@@ -3,11 +3,10 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
+
 class PoseDialogs extends Component {
 
-    changeName = (data) => (event) => data.name = event.target.value;
-
-    saveGroup = (data) => () => console.log('saveGroup', data);
+    changeName = (data) => (event, newValue) => data.name = newValue;
 
     render() {
         let groupActions = [];
@@ -17,9 +16,10 @@ class PoseDialogs extends Component {
         let actionTitle = 'Action';
 
         let groupData = this.props.dialogGroup.data;
+        let groupKey = this.props.dialogGroup.key;
         if(groupData){
             dialogGroupChildren = <TextField
-              value={groupData.name}
+              defaultValue={groupData.name}
               floatingLabelText="名稱"
               onChange={this.changeName(groupData)}
             />
@@ -33,61 +33,73 @@ class PoseDialogs extends Component {
                 <FlatButton
                     label="儲存"
                     primary={true}
-                    onTouchTap={this.saveGroup(groupData)}
+                    onTouchTap={this.props.saveGroupName(groupKey, groupData)}
                 />,
             ];
         }else{
+            groupData = {name: ""};
             dialogGroupChildren = <TextField
-              value=""
+              defaultValue={groupData.name}
               floatingLabelText="名稱"
-              onChange={this.changeName}
+              onChange={this.changeName(groupData)}
             />
             groupTitle = "新增群組";
             groupActions = [
                 <FlatButton
-                    label="Cancel"
-                    primary={true}
+                    label="取消"
                     onTouchTap={this.props.closeGroup}
                 />,
                 <FlatButton
-                    label="Submit"
+                    label="完成"
                     primary={true}
-                    disabled={true}
-                    onTouchTap={this.props.closeGroup}
+                    onTouchTap={this.props.saveNewGroup(groupData)}
                 />,
             ];
         }
 
-        if(this.props.dialogAction.data){
-            dialogActionChildren = this.props.dialogAction.data.name;
+        let actionData = this.props.dialogAction.data;
+        let actionKey = this.props.dialogAction.key;
+        let actionGroupKey = this.props.dialogAction.group;
+        if(actionData){
+            dialogActionChildren = <TextField
+              defaultValue={actionData.name}
+              floatingLabelText="名稱"
+              onChange={this.changeName(actionData)}
+            />
+
             actionTitle = "編輯動作";
             actionActions = [
                 <FlatButton
-                    label="Cancel"
-                    primary={true}
+                    label="取消"
                     onTouchTap={this.props.closeAction}
                 />,
                 <FlatButton
-                    label="Submit"
+                    label="儲存"
                     primary={true}
-                    disabled={true}
-                    onTouchTap={this.props.closeAction}
+                    onTouchTap={this.props.saveActionName(actionKey, actionData)}
                 />,
             ];
         }else{
-            dialogActionChildren = 'Add Action';
-            actionTitle = "新增動作";
+            actionData = {
+                name: "",
+                group: actionGroupKey
+            };
+            
+            dialogActionChildren = <TextField
+              defaultValue={actionData.name}
+              floatingLabelText="名稱"
+              onChange={this.changeName(actionData)}
+            />
+            actionTitle = "新增群組";
             actionActions = [
                 <FlatButton
-                    label="Cancel"
-                    primary={true}
+                    label="取消"
                     onTouchTap={this.props.closeAction}
                 />,
                 <FlatButton
-                    label="Submit"
+                    label="完成"
                     primary={true}
-                    disabled={true}
-                    onTouchTap={this.props.closeAction}
+                    onTouchTap={this.props.saveNewAction(actionData)}
                 />,
             ];
         }
