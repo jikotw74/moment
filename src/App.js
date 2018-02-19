@@ -16,6 +16,7 @@ import { firebaseAuth } from './util/firebase.js'
 injectTapEventPlugin();
 
 function PrivateRoute ({component: Component, authed, ...rest}) {
+  console.log('PrivateRoute', authed)
   return (
     <Route
       {...rest}
@@ -46,7 +47,9 @@ class App extends Component {
         };
     }
     componentDidMount () {
-        this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
+        this.removeListener = firebaseAuth.onAuthStateChanged((user) => {
+          console.log('onAuthStateChanged', user);
+
             if (user) {
                 this.setState({
                 authed: true,
@@ -58,6 +61,8 @@ class App extends Component {
                     loading: false
                 })
             }
+
+            console.log(this.state);
         })
     }
   componentWillUnmount () {
