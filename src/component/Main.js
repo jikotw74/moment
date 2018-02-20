@@ -90,20 +90,23 @@ class Main extends Component {
         return ( 
             <div className="Main">
 		  		<TopBar groups={groups} actions={actions} admin={this.props.admin}/>
-		  		<div className="group-list">
+		  		<div className="Main-list">
 		  			{rows}
 		  		</div>
-		  		<RaisedButton 
-		  			className="Main-btn-generate"
-			  		label="GENERATE" 
-			  		onTouchTap={this.go}
-			  		buttonStyle={{
-			  			backgroundColor: 'black'
-			  		}}
-			  		labelStyle={{
-			  			color: 'white'
-			  		}}
-		  		/>
+		  		<div className="Main-bottom">
+			  		<RaisedButton 
+			  			className="Main-btn-generate"
+				  		label="GENERATE" 
+				  		onTouchTap={this.go}
+				  		buttonStyle={{
+				  			backgroundColor: 'black'
+				  		}}
+				  		labelStyle={{
+				  			color: 'white',
+    						letterSpacing: '4px'
+				  		}}
+			  		/>
+		  		</div>
 		  	</div>
         );
     }
