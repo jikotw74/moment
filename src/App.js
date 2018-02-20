@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 import Main from './component/Main';
-import Home from './container/Home';
+import Home from './component/Home';
 
 import { firebaseAuth } from './util/firebase.js'
 import { ADMIN_LIST } from './config';

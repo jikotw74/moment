@@ -113,6 +113,28 @@ class TopBar extends Component {
     	});
     }
 
+    deleteAction = (key) => () => {
+        const ref = FireBaseTools.getDatabaseReference('/actions/' + key);
+        if (ref) {
+            ref.remove()
+            .then(() => {
+            	this.dialogActionClose();
+            	console.log('delete action ', key);
+            });
+        }
+    }
+
+    deleteGroup = (key) => () => {
+        const ref = FireBaseTools.getDatabaseReference('/actionGroups/' + key);
+        if (ref) {
+            ref.remove()
+            .then(() => {
+            	this.dialogGroupClose();
+            	console.log('delete group ', key);
+            });
+        }
+    }
+
 	render() {
 		const groups = this.props.groups;
 		const actions = this.props.actions;
@@ -178,6 +200,8 @@ class TopBar extends Component {
 			  		closeAction={this.dialogActionClose}
 			  		saveActionName={this.saveActionName}
 			  		saveNewAction={this.saveNewAction}
+			  		deleteAction={this.deleteAction}
+			  		deleteGroup={this.deleteGroup}
 			  	>
 			  	</PoseDialogs>
 		  	</div>

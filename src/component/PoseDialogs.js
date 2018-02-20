@@ -29,6 +29,11 @@ class PoseDialogs extends Component {
                 <FlatButton
                     label="取消"
                     onTouchTap={this.props.closeGroup}
+                />,                
+                <FlatButton
+                    label="刪除"
+                    secondary={true}
+                    onTouchTap={this.props.deleteGroup(groupKey)}
                 />,
                 <FlatButton
                     label="儲存"
@@ -72,6 +77,11 @@ class PoseDialogs extends Component {
                 <FlatButton
                     label="取消"
                     onTouchTap={this.props.closeAction}
+                />,
+                <FlatButton
+                    label="刪除"
+                    secondary={true}
+                    onTouchTap={this.props.deleteAction(actionKey)}
                 />,
                 <FlatButton
                     label="儲存"
