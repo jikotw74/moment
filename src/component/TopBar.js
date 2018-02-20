@@ -12,6 +12,7 @@ import IconButton from 'material-ui/IconButton';
 // import IconMenu from 'material-ui/IconMenu';
 import Divider from 'material-ui/Divider';
 import FireBaseTools from '../util/firebase';
+import SystemMenu from './SystemMenu';
 
 class TopBar extends Component {
 	constructor(props) {
@@ -144,16 +145,24 @@ class TopBar extends Component {
 			</div>
 	    });
 
+	    const AppBarRightIcon = <IconButton>
+		    <FontIcon className="material-icons" onTouchTap={this.handleToggle}>mode_edit</FontIcon>
+		</IconButton>
+
 	    return (
 	    	<div className="TopBar">
 		      	<AppBar
-			    	title="POSE產生器"
-			    	iconClassNameRight="material-icons muidocs-icon-navigation-expand-more"
-			    	onLeftIconButtonTouchTap={this.handleToggle}
+		      		className="TopBar-app-bar"
+			    	title="posing"
+			    	iconElementLeft={<SystemMenu />}
+			    	iconElementRight={this.props.admin ? AppBarRightIcon : null}
+			    	style={{
+			    		backgroundColor: 'black'
+			    	}}
 			  	/>
 			  	<Drawer
 			  		docked={false}
-			    	width={200}
+			    	width={'70%'}
 			    	open={this.state.open}
 			    	onRequestChange={(open) => this.setState({open})}
 			  	>

@@ -1,0 +1,14 @@
+.Main{
+	display: flex;
+    flex-direction: column;
+    margin: 1em;
+    min-width: 375px;
+    min-height: 80vh;
+    .Main-btn-generate{
+    	margin: 1em;
+    }
+    .group-list{
+    	padding: 1em;
+    	flex: 1;
+    }
+}

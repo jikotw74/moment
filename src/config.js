@@ -6,3 +6,6 @@ export const FIREBASE_CONFIG = {
 	storageBucket: "moment-c7f66.appspot.com",
 	messagingSenderId: "234565228463"
 };
+
+export const ADMIN_LIST = ['8ZXdtpdLnFaKv3U747ySGdAO8ox1'];
+// export const ADMIN_LIST = [''];

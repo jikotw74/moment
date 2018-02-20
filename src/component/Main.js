@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Main.css';
 import RaisedButton from 'material-ui/RaisedButton';
 import TopBar from './TopBar';
 import ActionGroup from './ActionGroup';
@@ -15,7 +16,7 @@ class Main extends Component {
 	constructor(props) {
         super(props);
         this.state = {
-	      init: init
+	      	init: init
 	    };
     }
 
@@ -31,6 +32,9 @@ class Main extends Component {
 			    });
 			    console.log('groups', groups);
 			    console.log('actions', actions);
+
+			    // shuffle on init
+	    		this.go();
 	      	});
 	    }
     }
@@ -66,7 +70,8 @@ class Main extends Component {
     			children = using.filter((snap, snapIndex) => {
 		    		return snap.groupKey === groupKey && snap.action;
 		    	}).map((snap, snapIndex) => <Action key={snapIndex} name={snap.action.name}/>)
-    		}else{
+    		}
+    		else{
     			children = Object.keys(actions).filter((actionKey, actionIndex) => {
     				let action = actions[actionKey];
 		    		return action.group === groupKey;
@@ -79,17 +84,26 @@ class Main extends Component {
 	    	return <ActionGroup 
 		        key={groupIndex} 
 		        title={group.name}
-		        bgColor={this.getColor(groupIndex)}
 		    >{children}</ActionGroup>
 	    });
 
         return ( 
             <div className="Main">
-		  		<TopBar groups={groups} actions={actions}/>
+		  		<TopBar groups={groups} actions={actions} admin={this.props.admin}/>
 		  		<div className="group-list">
 		  			{rows}
 		  		</div>
-		  		<RaisedButton label="開始產生" secondary={true} onTouchTap={this.go}/>
+		  		<RaisedButton 
+		  			className="Main-btn-generate"
+			  		label="GENERATE" 
+			  		onTouchTap={this.go}
+			  		buttonStyle={{
+			  			backgroundColor: 'black'
+			  		}}
+			  		labelStyle={{
+			  			color: 'white'
+			  		}}
+		  		/>
 		  	</div>
         );
     }
