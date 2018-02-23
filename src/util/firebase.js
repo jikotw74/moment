@@ -38,7 +38,7 @@ const FireBaseTools = {
      */
     loginWithProvider: (p) => {
         const provider = FireBaseTools.getProvider(p);
-        return firebaseAuth.signInWithPopup(provider).then(firebaseAuth.currentUser).catch(error => ({
+        return firebaseAuth.signInWithRedirect(provider).then(firebaseAuth.currentUser).catch(error => ({
             errorCode: error.code,
             errorMessage: error.message,
         }));
