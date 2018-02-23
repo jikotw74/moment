@@ -26,5 +26,6 @@
     "eject": "react-scripts eject",
     "deploy": "npm run build&&gh-pages -d build"
   },
-  "homepage": "https://jikotw74.github.io/moment/"
+  "github-homepage": "https://jikotw74.github.io/moment/",
+  "homepage": "https://posing.netlify.com/"
 }
