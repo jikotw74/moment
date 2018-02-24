@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Guest.css';
 // import TextField from 'material-ui/TextField';
 // import ActionAndroid from 'material-ui/svg-icons/action/android';
-import FireBaseTools from '../util/firebase.js';
+// import FireBaseTools from '../util/firebase.js';
 // import FlatButton from 'material-ui/FlatButton';
 
 class Guest extends Component {
