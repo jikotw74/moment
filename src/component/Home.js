@@ -23,55 +23,9 @@ class Home extends Component {
         return ( 
             <div className="Home">		  		
                 <div className="Home-title">posing</div>
-                {
-                    // <TextField
-                    //     hintText="E-mail"
-                    //     floatingLabelText="E-mail"
-                    //     onChange={(e, newValue) => {
-                    //         this.setState({
-                    //             email: newValue
-                    //         })
-                    //     }}
-                    // />
-                    // <TextField
-                    //     hintText="Password"
-                    //     floatingLabelText="Password"
-                    //     type="password"
-                    //     onChange={(e, newValue) => {
-                    //         this.setState({
-                    //             password: newValue
-                    //         })
-                    //     }}
-                    // />
-                    // <RaisedButton
-                    //     label="Login"
-                    //     secondary={true}
-                    //     icon={<ActionAndroid />}
-                    //     onClick={() => {
-                    //         FireBaseTools.loginUser({
-                    //             email: this.state.email,
-                    //             password: this.state.password,
-                    //         })
-                    //         .catch((error) => {
-                    //             console.log(error)
-                    //         })
-                    //     }}
-                    // />
-                    // <RaisedButton
-                    //     label="Logout"
-                    //     primary={true}
-                    //     icon={<ActionAndroid />}
-                    //     onClick={() => {
-                    //         FireBaseTools.logoutUser()
-                    //         .catch((error) => {
-                    //             console.log(error)
-                    //         })
-                    //     }}
-                    // />
-                }
-                
+                                
                 <RaisedButton
-                    label="Sign in with Google"
+                    label="按此以 Google 帳號登入"
                     primary={true}
                     onClick={() => {
                         FireBaseTools.loginWithProvider('google')

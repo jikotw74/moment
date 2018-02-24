@@ -3,6 +3,7 @@ import './App.css';
 
 import Main from './component/Main';
 import Home from './component/Home';
+import Guest from './component/Guest';
 
 import { firebaseAuth } from './util/firebase.js'
 // import { ADMIN_LIST } from './config';
@@ -11,6 +12,8 @@ import Paper from 'material-ui/Paper';
 import FireBaseTools from './util/firebase';
 
 import firebase from 'firebase';
+
+import CircularProgress from 'material-ui/CircularProgress';
 
 class App extends Component {
     constructor(props) {
@@ -62,13 +65,25 @@ class App extends Component {
     render() {
         if(this.state.loading){
             return (
-                <div className="App">Loading</div>
+                <div className="App">
+                    <CircularProgress size={80} thickness={5} />
+                </div>
             )
         }
+
+        let body;
+        if(this.state.authed && this.state.settings.confirmed){
+            body = <Main settings={this.state.settings}/>
+        }else if(this.state.authed){
+            body = <Guest email={this.state.user.email}/>
+        }else{
+            body = <Home />
+        }
+
         return (
             <div className="App">
                 <Paper zDepth={2}>
-                    {this.state.authed ? <Main settings={this.state.settings}/> : <Home />}
+                    {body}
                 </Paper>
             </div>
         );
