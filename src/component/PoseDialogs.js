@@ -42,7 +42,7 @@ class PoseDialogs extends Component {
                 />,
             ];
         }else{
-            groupData = {name: ""};
+            groupData = {name: "", index: groupKey};
             dialogGroupChildren = <TextField
               defaultValue={groupData.name}
               floatingLabelText="名稱"

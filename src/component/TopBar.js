@@ -8,11 +8,11 @@ import FontIcon from 'material-ui/FontIcon';
 import PoseDialogs from './PoseDialogs'
 // import {grey400} from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
-// import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-// import IconMenu from 'material-ui/IconMenu';
 import Divider from 'material-ui/Divider';
 import FireBaseTools from '../util/firebase';
 import SystemMenu from './SystemMenu';
+import IconMenu from 'material-ui/IconMenu';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 class TopBar extends Component {
 	constructor(props) {
@@ -135,37 +135,70 @@ class TopBar extends Component {
         }
     }
 
+    groupsMoveIndex = (groups, oldIndex, newIndex) => (e) => {
+    	let newValues = {};
+
+    	Object.keys(groups).forEach(key => {
+    		const group = groups[key];
+    		if(group.index === oldIndex){
+    			newValues[key] = {
+    				...group,
+    				index: newIndex
+    			}
+    		}else if(group.index === newIndex){
+    			newValues[key] = {
+    				...group,
+    				index: oldIndex
+    			}
+    		}
+
+    	})
+
+    	const ref = FireBaseTools.getDatabaseReference('/actionGroups');
+    	ref.update(newValues)
+    	.then(() => console.log('newValues', newValues));
+    }
+
 	render() {
 		const groups = this.props.groups;
 		const actions = this.props.actions;
-		const items = Object.keys(groups).map((groupKey, groupIndex) => {
-			let group = groups[groupKey];
-    		const children = Object.keys(actions).filter((actionKey, actionIndex) => {
-    			let action = actions[actionKey];
-		    	return action.group === groupKey;
-		    }).map((actionKey, actionIndex) => {
-		    	let action = actions[actionKey];
-		    	return <MenuItem key={actionIndex} onTouchTap={this.dialogActionToggle(action, actionKey, groupKey)} leftIcon={<FontIcon className="material-icons">photo_camera</FontIcon>}>{action.name}</MenuItem>
+		const groups_length = Object.keys(groups).length;
+		const items = Object.keys(groups)
+			.sort((a, b) => groups[a].index -groups[b].index)
+			.map((groupKey, groupIndex) => {
+				let group = groups[groupKey];
+	    		const children = Object.keys(actions).filter((actionKey, actionIndex) => {
+	    			let action = actions[actionKey];
+			    	return action.group === groupKey;
+			    }).map((actionKey, actionIndex) => {
+			    	let action = actions[actionKey];
+			    	return <MenuItem key={actionIndex} onTouchTap={this.dialogActionToggle(action, actionKey, groupKey)} leftIcon={<FontIcon className="material-icons">photo_camera</FontIcon>}>{action.name}</MenuItem>
+			    });
+
+			    children.push(<MenuItem key={children.length+1} onTouchTap={this.dialogActionToggle(false, false, groupKey)} leftIcon={<FontIcon className="material-icons">add</FontIcon>}>新增動作</MenuItem>);
+
+			    const RightMenu = <IconMenu
+	                iconButtonElement={<IconButton><MoreVertIcon/></IconButton>}
+	                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+	                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+	            >
+	                <MenuItem primaryText="編輯" onClick={this.dialogGroupToggle(group, groupKey)}/>
+	                {groupIndex !== 0 && <MenuItem primaryText="上移" onClick={this.groupsMoveIndex(groups, group.index, group.index-1)}/>}
+	                {groupIndex !== groups_length-1 && <MenuItem primaryText="下移" onClick={this.groupsMoveIndex(groups, group.index, group.index+1)}/>}
+	            </IconMenu>
+
+		    	return <div key={groupIndex}>
+			    	<ListItem 
+					    key={groupIndex} 
+					    primaryText={group.name}
+					    nestedItems={children}
+					    primaryTogglesNestedList={true}
+					    leftIcon={<FontIcon className="material-icons">view_module</FontIcon>}
+					    rightIconButton={RightMenu}
+					/>
+					<Divider />
+				</div>
 		    });
-
-		    children.push(<MenuItem key={children.length+1} onTouchTap={this.dialogActionToggle(false, false, groupKey)} leftIcon={<FontIcon className="material-icons">add</FontIcon>}>新增動作</MenuItem>);
-
-		    const rightIcon = <IconButton>
-		    	<FontIcon className="material-icons" onTouchTap={this.dialogGroupToggle(group, groupKey)}>mode_edit</FontIcon>
-		    </IconButton>
-
-	    	return <div key={groupIndex}>
-		    	<ListItem 
-				    key={groupIndex} 
-				    primaryText={group.name}
-				    nestedItems={children}
-				    primaryTogglesNestedList={true}
-				    leftIcon={<FontIcon className="material-icons">view_module</FontIcon>}
-				    rightIconButton={rightIcon}
-				/>
-				<Divider />
-			</div>
-	    });
 
 	    const AppBarRightIcon = <IconButton>
 		    <FontIcon className="material-icons" onTouchTap={this.handleToggle}>mode_edit</FontIcon>
@@ -189,7 +222,7 @@ class TopBar extends Component {
 			    	onRequestChange={(open) => this.setState({open})}
 			  	>
 			    	<List>{items}</List>
-			    	<MenuItem onTouchTap={this.dialogGroupToggle()} leftIcon={<FontIcon className="material-icons">add</FontIcon>}>新增群組</MenuItem>
+			    	<MenuItem onTouchTap={this.dialogGroupToggle(false, groups_length+1)} leftIcon={<FontIcon className="material-icons">add</FontIcon>}>新增群組</MenuItem>
 			  	</Drawer>
 			  	<PoseDialogs
 			  		dialogGroup={this.state.group}

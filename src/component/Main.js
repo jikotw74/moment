@@ -21,7 +21,7 @@ class Main extends Component {
     }
 
     componentWillMount() {
-        const ref = FireBaseTools.getDatabaseReference('/').orderByKey();
+        const ref = FireBaseTools.getDatabaseReference('/').orderByChild('group');
 	    if (ref) {
 	      	ref.on('value', snap => {
 	        	var data = snap.val();
@@ -63,7 +63,9 @@ class Main extends Component {
 	getColor = index => colorsArray[index % 5];
 
     render() {
-    	const rows = Object.keys(groups).map((groupKey, groupIndex) => {
+    	const rows = Object.keys(groups)
+    	.sort((a, b) => groups[a].index -groups[b].index)
+    	.map((groupKey, groupIndex) => {
     		let group = groups[groupKey];
     		let children;
     		if(this.state.init){
