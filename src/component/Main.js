@@ -21,7 +21,7 @@ class Main extends Component {
     }
 
     componentWillMount() {
-        const ref = FireBaseTools.getDatabaseReference('/').orderByChild('group');
+        const ref = FireBaseTools.getDatabaseReference('/').orderByKey();
 	    if (ref) {
 	      	ref.on('value', snap => {
 	        	var data = snap.val();
@@ -91,7 +91,7 @@ class Main extends Component {
 
         return ( 
             <div className="Main">
-		  		<TopBar groups={groups} actions={actions} admin={this.props.admin}/>
+		  		<TopBar groups={groups} actions={actions} admin={this.props.settings.admin}/>
 		  		<div className="Main-list">
 		  			{rows}
 		  		</div>

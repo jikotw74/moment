@@ -209,7 +209,7 @@ class TopBar extends Component {
 		      	<AppBar
 		      		className="TopBar-app-bar"
 			    	title="posing"
-			    	iconElementLeft={<SystemMenu />}
+			    	iconElementLeft={<SystemMenu admin={this.props.admin}/>}
 			    	iconElementRight={this.props.admin ? AppBarRightIcon : null}
 			    	style={{
 			    		backgroundColor: 'black'
