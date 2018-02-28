@@ -15,7 +15,8 @@ class ConfirmDialog extends Component {
         super(props);
         this.state = {
             loading: true,
-            users: false
+            users: false,
+            usersEditCopy: false,
         };
     }
 
@@ -23,36 +24,31 @@ class ConfirmDialog extends Component {
         const ref = FireBaseTools.getDatabaseReference('/userSettings').orderByChild('d');
         if (ref) {
             ref.on('value', snap => {
-                console.log(snap.val());
-
                 this.setState({
                     loading: false,
-                    users: snap.val()
+                    usersSnap: snap,
+                    usersEditCopy: snap.val()
                 });
             });
         }
     }
 
+    handleCancel = event => {
+        this.setState({
+            usersEditCopy: this.state.usersSnap.val()
+        }, () => this.props.handleClose(event))
+    }
+
     handleSave = event => {
         const ref = FireBaseTools.getDatabaseReference('/userSettings');
         if (ref) {
-            // let updateObj = {};
-            // Object.keys(this.state.users).forEach(key => {
-            //     updateObj[key] ={
-            //         confirmed: this.state.users[key].confirmed    
-            //     }
-            // });
-
-            console.log(this.state.users);
-
-            ref.update(this.state.users)
-            .then(() => console.log('save'))
-            .then(() => this.props.handleClose);
+            ref.update(this.state.usersEditCopy)
+            .then(() => console.log('save confirmed users'))
+            .then(() => this.props.handleClose(event));
         }
     }
 
     render() {
-
         if(this.state.loading){
             return <div/>
         }
@@ -60,7 +56,7 @@ class ConfirmDialog extends Component {
         let actions = [
             <FlatButton
                 label="取消"
-                onTouchTap={this.props.handleClose}
+                onTouchTap={this.handleCancel}
             />,
             <FlatButton
                 label="儲存"
@@ -69,20 +65,19 @@ class ConfirmDialog extends Component {
             />,
         ];
 
-        const items = Object.keys(this.state.users).map((key, index) => {
-            const user = this.state.users[key];
+        const items = Object.keys(this.state.usersEditCopy)
+        .filter(key => {
+            return !this.state.usersEditCopy[key].admin
+        })
+        .map(key => {
+            const user = this.state.usersEditCopy[key];
             const ckb = <Checkbox 
                 checked={user.confirmed}
                 onCheck={(event, isInputChecked) => {
                     user.confirmed = isInputChecked;
-                    let users = {
-                        ...this.state.users
-                    }
-                    users[key] = user;
                     this.setState({
-                        users: users
+                        usersEditCopy: this.state.usersEditCopy
                     });
-                    console.log(user);
                 }}
             />
 
